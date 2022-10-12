@@ -70,15 +70,17 @@ public class EmployeeController {
 
     // Update record on the basis of id
     @PutMapping("/update/employees/{id}")
-    public ResponseEntity<Employee> UpdateEmployeeOnID(@PathVariable long id)
-    {
-        Employee employee= employeeRepository.findById(id)
-                .orElseThrow(()-> new ResourceNotFoundException("Employee with associate id not found"));
-        employee.setFirstName(employee.getFirstName());
-        employee.setLastName(employee.getLastName());
-        employee.setEmailId(employee.getEmailId());
-        Employee UpdatedEmployee= employeeRepository.save(employee);
-        return ResponseEntity.ok(UpdatedEmployee);
+    public ResponseEntity<Employee> updateEmployee(@PathVariable Long id, @RequestBody Employee employeeDetails){
+        Employee employee = employeeRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Employee not exist with id :" +id));
+
+        employee.setFirstName(employeeDetails.getFirstName());
+        employee.setLastName(employeeDetails.getLastName());
+        employee.setEmailId(employeeDetails.getEmailId());
+
+        Employee updatedEmployee = employeeRepository.save(employee);
+        System.out.println("Record updated Successfully");
+        return ResponseEntity.ok(updatedEmployee);
 
     }
 
